@@ -11,6 +11,8 @@ import {
   CodeBracketSquareIcon,
   ArrowsUpDownIcon,
 } from '@heroicons/react/24/outline'
+import {useTranslation} from "next-i18next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 const features = [
   {
@@ -49,6 +51,7 @@ export default function Home() {
 }
 
 function FeaturesSection() {
+  const {t} = useTranslation();
   return (
     <div className="relative bg-white py-16">
       <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
@@ -56,6 +59,7 @@ function FeaturesSection() {
         <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           The Social Internet
         </p>
+        {t('test')}
         <p className="mx-auto mt-5 max-w-prose text-xl text-gray-500">
           The AT Protocol is a networking technology created by{' '}
           <Link href="https://blueskyweb.xyz">
@@ -158,3 +162,10 @@ function LinksSection() {
     </div>
   )
 }
+
+
+export const getServerSideProps = async ({locale}) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common']))
+  }
+})
